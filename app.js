@@ -7,6 +7,9 @@ const app = express();
 app.use(express.json());
 app.use(authRoutes);
 app.use(groupRoutes);
+app.get('/', (req, res) => {
+    res.send('Hello World!')
+  })
 
 mongoose.connect('mongodb://127.0.0.1/secret-santa-db', {
     useNewUrlParser: true,
