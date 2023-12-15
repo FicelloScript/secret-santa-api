@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 
+
 exports.register = async (req, res) => {
     try {
         const user = new User(req.body);
@@ -19,5 +20,17 @@ exports.login = async (req, res) => {
         res.send({ user, token });
     } catch (error) {
         res.status(400).send(error);
+    }
+};
+
+exports.login = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const user = await User.findByCredentials(email, password);
+        const token = jwt.sign({ _id: user._id.toString() }, 'secretKey', { expiresIn: '72h' });
+        
+        res.send({ user, token });
+    } catch (error) {
+        res.status(400).send({ error: 'Invalid login credentials' });
     }
 };
