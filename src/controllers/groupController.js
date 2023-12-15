@@ -1,6 +1,27 @@
 const Group = require('../models/Group');
 const User = require('../models/User');
 const nodemailer = require('nodemailer');
+const secretSantaService = require('../services/secretSantaService');
+
+exports.assignSecretSantas = async (req, res) => {
+    try {
+        const groupId = req.params.groupId;
+        const group = await Group.findById(groupId);
+
+        if (!group) {
+            return res.status(404).send({ error: 'Group not found' });
+        }
+
+        const assignments = secretSantaService.assignSecretSantas(group.members);
+        group.assignments = assignments;
+        await group.save();
+
+        res.send({ message: 'Secret Santas assigned successfully', group });
+    } catch (error) {
+        
+        res.status(400).send(error);
+    }
+};
 
 
 exports.inviteMember = async (req, res) => {

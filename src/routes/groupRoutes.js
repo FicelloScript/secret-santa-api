@@ -10,5 +10,7 @@ router.post('/group', authenticate, groupController.createGroup);
 router.post('/group/invite', authenticate, groupController.inviteMember);
 router.post('/group/acceptInvitation', authenticate, groupController.acceptInvitation);
 router.post('/group/declineInvitation', authenticate, groupController.declineInvitation);
+router.post('/group/:groupId/assignSecretSantas', authenticate, groupController.assignSecretSantas);
+
 
 module.exports = router;
